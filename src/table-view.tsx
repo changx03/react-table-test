@@ -27,6 +27,7 @@ export class App extends React.Component<any, any> {
         <Timmer />
         <TableBody1 />
         <TableBody2 />
+        <TableBody3 />
       </div>
     );
   }
@@ -138,6 +139,63 @@ class TableContentFun extends React.Component<{}, any> {
     return (
       <div className="container">
         <ValueView controller={this} />
+        <table className="table table-striped">
+          <thead>
+            <HeaderRow />
+          </thead>
+          <tbody>
+            {ranDayData.map((v, i) => (
+              <tr key={i}>
+                {v.map((c, j) => (
+                  <BodyCell
+                    key={i.toString() + j.toString()}
+                    value={c}
+                    onClick={this.onClick}
+                    idx={j}
+                  />
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  onClick = (obj?: any) => {
+    this.cellVal = obj;
+  };
+}
+
+@observer
+class TableBody3 extends React.Component<any, any> {
+  @observable showTable: boolean = false;
+
+  render() {
+    return (
+      <div style={{ paddingTop: 30 }}>
+        <input
+          type="button"
+          value="Start fun with display inside table class"
+          onClick={this.onBtnClick}
+        />
+        {this.showTable && <TableContent3 />}
+      </div>
+    );
+  }
+
+  onBtnClick = () => {
+    this.showTable = !this.showTable;
+  };
+}
+
+@observer
+class TableContent3 extends React.Component<{}, any> {
+  @observable cellVal: string = "Nothing";
+  render() {
+    return (
+      <div className="container">
+        <h3>{this.cellVal}</h3>
         <table className="table table-striped">
           <thead>
             <HeaderRow />
